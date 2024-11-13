@@ -59,9 +59,8 @@ if __name__ == "__main__":
         # article1 = frappe.get_all("Article", filters={})
         # print(article1)
         
-        # 这个是从队列里面拿出消息， 报错不拿出消息，在此之前做判断
         ch.basic_ack(delivery_tag=method.delivery_tag)
-        # print(json.loads(body.decode()))
+        print(json.loads(body.decode()))
         print(f"Received message: {body.decode()}")
 
     channel.basic_consume(result.method.queue,callback, auto_ack=False)

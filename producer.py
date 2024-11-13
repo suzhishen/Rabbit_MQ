@@ -51,6 +51,7 @@ class RabbitMq():
             self.reconnect()  # 5s递归重试
 
     def producer(self, message):
+        """ 生产者dem """
         self.reconnect()
         message = message
         try:
@@ -72,5 +73,4 @@ class RabbitMq():
             self.reconnect()
 
 rabbit_mq = RabbitMq()
-rabbit_mq.producer(message="我发送了一条消息")
 
