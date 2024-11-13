@@ -3,13 +3,6 @@ import json
 
 from config.config_parser import rabbitmq_config
 
-# 导入工具类
-import os
-import sys
-parent_dir = os.path.abspath(os.path.join(os.path.dirname('../apps/frappe')))
-sys.path.append(parent_dir)
-import frappe
-
 if __name__ == "__main__":
     # """
     # 消费者, 非持久化数据

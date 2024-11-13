@@ -1,7 +1,6 @@
 import pika
 import time
 import logging
-import frappe
 
 import os
 import sys
@@ -48,8 +47,6 @@ class RabbitMq():
                 logging.warning(f"连接RabbitMQ失败, 请联系管理员！{e}")
                 logging.error(f"连接RabbitMQ失败, 请联系管理员！{e}")
                 self.max_reconnect = 3
-                frappe.log_error()
-                frappe.throw(f"连接RabbitMQ失败, 请联系管理员！")
             self.max_reconnect -= 1
             self.reconnect()  # 5s递归重试
 
