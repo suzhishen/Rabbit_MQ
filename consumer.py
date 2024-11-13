@@ -69,37 +69,3 @@ if __name__ == "__main__":
     print('等待消息，退出按 CTRL+C')
     channel.start_consuming()
 
-
-
-
-
-
-# from sqlalchemy import create_engine, inspect
-# from sqlalchemy.ext.automap import automap_base
-# from sqlalchemy.orm import Session
-
-
-# if __name__ == "__main__":
-#     # 创建数据库引擎，连接到 MariaDB
-#     engine = create_engine('mysql+pymysql://root:root@127.0.0.1:3306/erpnext15_db')
-
-#     # 使用 automap_base 自动映射数据库表
-#     Base = automap_base()
-#     Base.prepare(engine, reflect=True)
-
-#     # 检查数据库中的表名
-#     inspector = inspect(engine)
-#     table_names = inspector.get_table_names()
-
-#     # 假设你想获取名为 'your_table_name' 的表的模型
-#     tabNote = Base.classes.get('tabLibrary Member')
-
-#     if tabNote:
-#         session = Session(engine)
-#         # 查询表中的数据
-#         results = session.query(tabNote).all()
-#         print("1111111111111")
-#         for item in results:
-#             print(item.__dict__)
-#     else:
-#         print("Table not found.")
