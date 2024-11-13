@@ -35,7 +35,7 @@ class RabbitMq():
             self.connection = pika.BlockingConnection(self.parameters)
             self.channel = self.connection.channel()
             self.channel.exchange_declare(
-                exchange='exchange_my_queue1', 
+                exchange='exchange_my_queue1',  # 修改交换机名称
                 durable=True, 
                 exchange_type='direct'
                 )
@@ -44,19 +44,20 @@ class RabbitMq():
             time.sleep(5)
             print("尝试重新连接到RabbitMQ并创建一个新通道.")
             if self.max_reconnect <= 1:
-                logging.warning(f"连接RabbitMQ失败, 请联系管理员！{e}")
-                logging.error(f"连接RabbitMQ失败, 请联系管理员！{e}")
                 self.max_reconnect = 3
+                logging.warning(f"连接RabbitMQ失败, 请联系管理员！ {e}")
+                raise Exception(f"连接RabbitMQ失败, 请联系管理员！ {e}")
             self.max_reconnect -= 1
             self.reconnect()  # 5s递归重试
 
     def producer(self, message):
+        """ 生产者dem """
         self.reconnect()
         message = message
         try:
             self.channel.basic_publish(
-                exchange='exchange_my_queue1',
-                routing_key='my_queue1',
+                exchange='exchange_my_queue1',  # 修改交换机名称
+                routing_key='my_queue1',        # 修改路由名称
                 body=message,
                 properties=pika.BasicProperties(delivery_mode=2)
             )
@@ -66,10 +67,10 @@ class RabbitMq():
             self.reconnect()
             self.producer(message)
         except Exception as e:
-            print(f"发送消息时出错: {e}")
-            if self.connection is not None:
-                self.connection.close()
-            self.reconnect()
+            print(f"发送RabbitMQ消息时出错: {e}")
+            self.max_reconnect = 3
+            logging.warning(f"发送RabbitMQ消息时出错, 请联系管理员！ {e}")
+            raise Exception(f"发送RabbitMQ消息时出错, 请联系管理员！ {e}")
 
 rabbit_mq = RabbitMq()
 rabbit_mq.producer(message="我发送了一条消息")

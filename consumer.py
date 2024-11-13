@@ -46,9 +46,21 @@ if __name__ == "__main__":
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
 
-    result = channel.queue_declare(queue='my_queue1', durable=True, exclusive=False)
-    channel.exchange_declare(exchange='exchange_my_queue1', durable=True, exchange_type='direct')
-    channel.queue_bind(exchange='exchange_my_queue1', queue=result.method.queue, routing_key='my_queue1')
+    result = channel.queue_declare(
+        queue='my_queue1', 
+        durable=True, 
+        exclusive=False
+        )
+    channel.exchange_declare(
+        exchange='exchange_my_queue1',    # 修改交换机名称
+        durable=True, 
+        exchange_type='direct'
+        )
+    channel.queue_bind(
+        exchange='exchange_my_queue1',    # 修改交换机名称
+        queue=result.method.queue, 
+        routing_key='my_queue1'         # 修改路由名称
+        )
         
 
     def callback(ch, method, properties, body):
@@ -70,3 +82,4 @@ if __name__ == "__main__":
     channel.start_consuming()
 
 
+    
